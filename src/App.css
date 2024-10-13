@@ -1,0 +1,15 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  max-width: 1536px; /* Strict Default*/
+  margin: 0 auto;
+  text-align: center;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
