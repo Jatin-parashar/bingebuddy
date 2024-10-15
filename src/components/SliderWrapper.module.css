@@ -1,0 +1,21 @@
+.sliderWrapper {
+    width: 90%;
+    margin: 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px 0;
+    display: flex;
+}
+
+.container {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    height: auto;
+}
+
+.container::-webkit-scrollbar {
+    display: none;
+}

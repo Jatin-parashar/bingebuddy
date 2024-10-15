@@ -11,3 +11,7 @@ export const getContentCredits = async (contentType,contentId) =>{
 export const getContentVideos = async (contentType,contentId) =>{
     return await apiClient.get(`/${contentType}/${contentId}/videos`);
 }
+export const getContentRecommendations = async (contentType,contentId) =>{
+    return await apiClient.get(`/${contentType}/${contentId}/recommendations`);
+}
+

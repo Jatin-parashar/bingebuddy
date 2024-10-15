@@ -1,47 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import styles from "./ContentDetailPage.module.css";
-import CardSlider from "../components/CardSlider";
 import Youtube from "../components/Youtube";
 import {
   getContentDetails,
   getContentCredits,
   getContentVideos,
+  getContentRecommendations,
 } from "../services/apiService";
 import ContentDetail from "../components/ContentDetail";
+import SliderWrapper from "../components/SliderWrapper";
+import Card from "../components/Card";
+import Recommendations from "../components/Recommendations";
 
 const ContentDetailPage = () => {
-  const location = useLocation();
   const { contentType, contentId } = useParams();
 
   const [details, setDetails] = useState(null);
   const [credits, setCredits] = useState(null);
   const [videos, setVideos] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true); 
+        setLoading(true);
 
-
-        const [detailsResponse, creditsResponse, videosResponse] =
+        const [detailsResponse, creditsResponse, videosResponse,recommendationsResponse] =
           await Promise.all([
             getContentDetails(contentType, contentId),
             getContentCredits(contentType, contentId),
             getContentVideos(contentType, contentId),
+            getContentRecommendations(contentType,contentId),
           ]);
 
-        // Set data to state
         setDetails(detailsResponse.data);
         setCredits(creditsResponse.data);
         setVideos(videosResponse.data);
+        setRecommendations(recommendationsResponse.data);
       } catch (err) {
-        // Handle any error that occurs during any of the requests
         setError(err.message);
       } finally {
-        setLoading(false); // End loading
+        setLoading(false);
       }
     };
 
@@ -75,11 +76,29 @@ const ContentDetailPage = () => {
 
           {/* Credits section (e.g., cast and crew) */}
           {credits && (
-            <div className={styles.credits}>
+            <div>
               <h3>Cast & Crew</h3>
-              <CardSlider cast={credits.cast} />
+
+              <SliderWrapper>
+                {credits.cast.map((person) => (
+                  <Card key={person.id} person={person} />
+                ))}
+              </SliderWrapper>
             </div>
           )}
+
+          <div style={{ textAlign: "center", margin: "20px" }}>
+            <hr style={{ width: "90%", margin: "0 auto" }} />
+          </div>
+
+          <div>
+            <h3>Recommendations</h3>
+            <SliderWrapper>
+              {recommendations.results.map((movie) => (
+                <Recommendations key={movie.id} movie={movie} />
+              ))}
+            </SliderWrapper>
+          </div>
         </>
       )}
     </>

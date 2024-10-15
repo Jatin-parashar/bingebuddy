@@ -1,0 +1,19 @@
+.card {
+    flex: 0 0 100px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    width: 50px;
+    font-size: 14px;
+}
+
+.poster {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}
