@@ -1,0 +1,57 @@
+/* Wrapper for the entire slider */
+.sliderWrapper {
+    width: 90%;
+    /* Adjust this width to control the visible area of the cards */
+    margin: 0 auto;
+    /* Center the container */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    overflow-y: hidden;
+    /* Hide vertical overflow */
+    padding: 20px 0;
+    /* Smooth scrolling */
+
+}
+
+
+
+/* The container that holds the cards */
+.cardContainer {
+    display: flex;
+    gap: 5px;
+    /* Space between cards */
+    padding: 10px;
+    overflow-x: auto;
+    /* Allow horizontal scrolling */
+    scroll-behavior: smooth;
+    /* Smooth scrolling */
+    height: 200px;
+}
+
+.cardContainer::-webkit-scrollbar{
+    display: none;
+}
+/* Individual cards */
+.card {
+    flex: 0 0 100px;
+    /* Set the card width, ensuring it doesn't shrink or grow */
+    /* height: 150px; */
+    /* Set a fixed height for cards */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* padding: 20px; */
+    color: white;
+    width: 50px;
+    font-size: 14px;
+}
+
+.poster{
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+}

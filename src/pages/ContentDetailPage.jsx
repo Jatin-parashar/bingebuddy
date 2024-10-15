@@ -1,51 +1,89 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
+import styles from "./ContentDetailPage.module.css";
+import CardSlider from "../components/CardSlider";
+import Youtube from "../components/Youtube";
+import {
+  getContentDetails,
+  getContentCredits,
+  getContentVideos,
+} from "../services/apiService";
+import ContentDetail from "../components/ContentDetail";
 
 const ContentDetailPage = () => {
-
   const location = useLocation();
-  const params = useParams();
+  const { contentType, contentId } = useParams();
 
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
-
-  const path = `${import.meta.env.VITE_ENDPOINT}/${params.contentType}/${params.contentId}?api_key=${
-    import.meta.env.VITE_API_KEY
-  }`;
+  const [details, setDetails] = useState(null);
+  const [credits, setCredits] = useState(null);
+  const [videos, setVideos] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const sendRequest = async () => {
+    const fetchData = async () => {
       try {
-        setLoading(true);
-        const response = await axios.get(path);
-        setData(response.data); 
-        console.log(response.data);
+        setLoading(true); 
+
+
+        const [detailsResponse, creditsResponse, videosResponse] =
+          await Promise.all([
+            getContentDetails(contentType, contentId),
+            getContentCredits(contentType, contentId),
+            getContentVideos(contentType, contentId),
+          ]);
+
+        // Set data to state
+        setDetails(detailsResponse.data);
+        setCredits(creditsResponse.data);
+        setVideos(videosResponse.data);
       } catch (err) {
-        setError(err.message); 
+        // Handle any error that occurs during any of the requests
+        setError(err.message);
       } finally {
-        setLoading(false); 
+        setLoading(false); // End loading
       }
     };
 
-    sendRequest();
-  }, [path]);
-
-
+    fetchData();
+  }, [contentType, contentId]);
 
   return (
     <>
-    {(loading || error) && (
-      <div style={{ textAlign: "center", margin: "50px" }}>
-        {loading && <div>Loading...</div>}
-        {error && <div>Error: {error}</div>}
-      </div>
-    )}
-    
-    <div>{path}</div>
-  </>
-  )
-}
+      {/* Loading and error handling */}
+      {loading && (
+        <div style={{ textAlign: "center", margin: "50px" }}>Loading...</div>
+      )}
+      {error && (
+        <div style={{ textAlign: "center", margin: "50px" }}>
+          Error: {error}
+        </div>
+      )}
 
-export default ContentDetailPage
+      {/* If details exist, display content */}
+      {!loading && !error && details && (
+        <>
+          <ContentDetail details={details} />
+
+          {/* Videos section */}
+          {videos && videos.results && videos.results.length > 0 && (
+            <>
+              <h3>Videos</h3>
+              <Youtube videoData={videos.results[0]} />
+            </>
+          )}
+
+          {/* Credits section (e.g., cast and crew) */}
+          {credits && (
+            <div className={styles.credits}>
+              <h3>Cast & Crew</h3>
+              <CardSlider cast={credits.cast} />
+            </div>
+          )}
+        </>
+      )}
+    </>
+  );
+};
+
+export default ContentDetailPage;
