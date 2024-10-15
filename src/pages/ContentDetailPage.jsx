@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Youtube from "../components/Youtube";
 import {
   getContentDetails,
@@ -8,9 +8,11 @@ import {
   getContentRecommendations,
 } from "../services/apiService";
 import ContentDetail from "../components/ContentDetail";
-import SliderWrapper from "../components/SliderWrapper";
-import Card from "../components/Card";
-import Recommendations from "../components/Recommendations";
+import SliderWrapper from "../components/common/SliderWrapper";
+import Card from "../components/common/Card";
+import Recommendations from "../components/MovieDetail/Recommendations";
+import Loading from "../components/common/Loading";
+import Cast from "../components/MovieDetail/Cast";
 
 const ContentDetailPage = () => {
   const { contentType, contentId } = useParams();
@@ -27,13 +29,17 @@ const ContentDetailPage = () => {
       try {
         setLoading(true);
 
-        const [detailsResponse, creditsResponse, videosResponse,recommendationsResponse] =
-          await Promise.all([
-            getContentDetails(contentType, contentId),
-            getContentCredits(contentType, contentId),
-            getContentVideos(contentType, contentId),
-            getContentRecommendations(contentType,contentId),
-          ]);
+        const [
+          detailsResponse,
+          creditsResponse,
+          videosResponse,
+          recommendationsResponse,
+        ] = await Promise.all([
+          getContentDetails(contentType, contentId),
+          getContentCredits(contentType, contentId),
+          getContentVideos(contentType, contentId),
+          getContentRecommendations(contentType, contentId),
+        ]);
 
         setDetails(detailsResponse.data);
         setCredits(creditsResponse.data);
@@ -51,13 +57,11 @@ const ContentDetailPage = () => {
 
   return (
     <>
-      {/* Loading and error handling */}
-      {loading && (
-        <div style={{ textAlign: "center", margin: "50px" }}>Loading...</div>
-      )}
-      {error && (
+      {(loading || error) && (
         <div style={{ textAlign: "center", margin: "50px" }}>
-          Error: {error}
+          {loading && <Loading />}
+
+          {error && <div>Error: {error}</div>}
         </div>
       )}
 
@@ -81,23 +85,35 @@ const ContentDetailPage = () => {
 
               <SliderWrapper>
                 {credits.cast.map((person) => (
-                  <Card key={person.id} person={person} />
+                  <Card key={person.id} cardWidth={120}>
+                    <Cast key={person.id} person={person} imageWidth={70} />
+                  </Card>
                 ))}
               </SliderWrapper>
             </div>
           )}
 
-          <div style={{ textAlign: "center", margin: "20px" }}>
-            <hr style={{ width: "90%", margin: "0 auto" }} />
-          </div>
+          <hr
+            style={{
+              width: "90%",
+              margin: "20px auto",
+              backgroundColor: "rgba(165, 42, 42, 0.7)",
+              height: "2px",
+              border: "none",
+            }}
+          />
 
           <div>
             <h3>Recommendations</h3>
+
+
             <SliderWrapper>
-              {recommendations.results.map((movie) => (
-                <Recommendations key={movie.id} movie={movie} />
-              ))}
-            </SliderWrapper>
+                {recommendations.results.map((movie) => (
+                  <Card key={movie.id} cardWidth={200}>
+                    <Recommendations key={movie.id} movie={movie} imageWidth={200} />
+                  </Card>
+                ))}
+              </SliderWrapper>
           </div>
         </>
       )}

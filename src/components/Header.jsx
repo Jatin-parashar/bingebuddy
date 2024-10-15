@@ -54,7 +54,10 @@ const Header = () => {
   };
 
   const renderDropdownOptions = (contentType) => {
-    const optionsList = contentType === "Movies" ? contentTypeOptions.movie : contentTypeOptions.tv;
+    const optionsList =
+      contentType === "Movies"
+        ? contentTypeOptions.movie
+        : contentTypeOptions.tv;
     return (
       <ul className={styles.dropdown}>
         {optionsList.map((item, index) => (
@@ -68,7 +71,12 @@ const Header = () => {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo} onClick={()=>{navigate("/")}}>
+      <div
+        className={styles.logo}
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <h1>BingeBuddy</h1>
       </div>
 
@@ -92,11 +100,13 @@ const Header = () => {
         </div>
       </nav>
 
-      <div className={styles.searchBar}>
-        <input type="text" placeholder="Search..." />
-        <button className={styles.searchBtn}>
-          <FontAwesomeIcon icon={faSearch} />
-        </button>
+      <div className={styles.search}>
+        <FontAwesomeIcon
+          icon={faSearch}
+          onClick={() => {
+            console.log("CLICKED");
+          }}
+        />
       </div>
     </header>
   );

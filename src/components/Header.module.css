@@ -66,36 +66,10 @@
     background-color: #343434;
 }
 
-.searchBar {
-    display: flex;
-    align-items: center;
-}
-
-.searchBar input {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 20px;
-    font-size: 16px;
-    width: 150px;
-    background-color: #fff;
-    color: #333;
-}
-
-.searchBar input:focus {
-    outline: none;
-}
-
-.searchBtn {
-    border: none;
-    padding: 5px 10px;
-    margin-left: -35px;
-    border-radius: 50%;
+.search{
     cursor: pointer;
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
+
 
 /* .searchBtn:hover {
     background-color: #ff8566;

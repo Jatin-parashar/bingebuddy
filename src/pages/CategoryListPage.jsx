@@ -2,36 +2,39 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import styles from "./CategoryListPage.module.css";
+import Loading from "../components/common/Loading";
+import { getCategoryList } from "../services/apiService";
 
 const CategoryListPage = () => {
   const location = useLocation();
   const params = useParams();
 
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
 
-  const path = `${import.meta.env.VITE_ENDPOINT}${location.pathname}?api_key=${
-    import.meta.env.VITE_API_KEY
-  }&language=en-US&page=${page}`;
 
   useEffect(() => {
     const sendRequest = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(path);
-        setData(response.data); 
+        const response = await getCategoryList(
+          params.contentType,
+          params.category,
+          page
+        );
+        setData(response.data);
         console.log(data);
       } catch (err) {
-        setError(err.message); 
+        setError(err.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
     sendRequest();
-  }, [path]);
+  }, [params.contentType,params.category,page]);
 
   // Handle page change
   const handlePageChange = (newPage) => {
@@ -47,7 +50,11 @@ const CategoryListPage = () => {
     const pages = [];
 
     // Create pagination numbers
-    for (let i = Math.max(currentPage - 1, 1); i <= Math.min(currentPage + 1, totalPages); i++) {
+    for (
+      let i = Math.max(currentPage - 1, 1);
+      i <= Math.min(currentPage + 1, totalPages);
+      i++
+    ) {
       pages.push(i);
     }
 
@@ -82,8 +89,8 @@ const CategoryListPage = () => {
     <>
       {(loading || error) && (
         <div style={{ textAlign: "center", margin: "50px" }}>
-          {loading && <div className={styles.loadingRing}></div>}
-          
+          {loading && <Loading />}
+
           {error && <div>Error: {error}</div>}
         </div>
       )}
@@ -108,7 +115,7 @@ const CategoryListPage = () => {
             );
           })}
       </div>
-      {!loading && !error && renderPagination()} 
+      {!loading && !error && renderPagination()}
     </>
   );
 };
