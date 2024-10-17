@@ -26,8 +26,9 @@ const HomePage = () => {
           getCategoryList("movie", "upcoming", 1), // Upcoming Movies (Page 1 - 20 movies)
           getCategoryList("tv", "airing_today", 1), // TV shows airing today (Page 1 - 20 tv shows)
         ]);
-
-        setTrending(trendingResponse.data);
+        const trendingResult = trendingResponse.data.results.filter((content) => content.media_type !== "person");
+        // console.log(trendingResult.map(content=>content.first_air_date));
+        setTrending(trendingResult);
         setUpcomingMovies(upcomingMoviesResponse.data);
         setTvshowsAiringToday(tvshowsAiringTodayResponse.data);
       } catch (err) {
@@ -54,27 +55,34 @@ const HomePage = () => {
 
         <SliderWrapper>
           {trending &&
-            trending.results.map((content) => (
-              <Card key={content.id} cardWidth={200}>
-                <img
-                  className={styles.posterImage}
-                  src={`https://image.tmdb.org/t/p/original/${content.poster_path}`}
-                  alt={`${content.title} Poster`}
-                  style={{ width: "200px" }}
-                />
-                <div className={styles.infoWrapper}>
-                  <h3 className={styles.movieTitle}>{content.name}</h3>
-                  <div className={styles.detailsWrapper}>
+            trending
+              .map((content) => (
+                <Card
+                  key={content.id}
+                  cardWidth={200}
+                  path={`/${content.media_type}/detail/${content.id}`}
+                >
+                  <img
+                    className={styles.posterImage}
+                    src={`https://image.tmdb.org/t/p/original/${content.poster_path}`}
+                    alt={`${content.title || content.name} Poster`} 
+                    style={{ width: "200px" }}
+                  />
+                  <div className={styles.infoWrapper}>
+                    <h3 className={styles.movieTitle}>
+                      {content.name || content.title}
+                    </h3>
+                    <div className={styles.detailsWrapper}>
                     <span className={styles.releaseYear}>
-                      {new Date(content.first_air_date).getFullYear()}
-                    </span>
-                    <span className={styles.rating}>
-                      ⭐ {content.vote_average}
-                    </span>
+                     {content.first_air_date && (new Date(content.first_air_date).getFullYear())}
+                      </span>
+                      <span className={styles.rating}>
+                        ⭐ {content.vote_average}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </Card>
-            ))}
+                </Card>
+              ))}
         </SliderWrapper>
       </div>
       <div className={styles.container}>
@@ -83,7 +91,11 @@ const HomePage = () => {
         <SliderWrapper>
           {upcomingMovies &&
             upcomingMovies.results.map((upcomingMovie) => (
-              <Card key={upcomingMovie.id} cardWidth={200}>
+              <Card
+                key={upcomingMovie.id}
+                cardWidth={200}
+                path={`/movie/detail/${upcomingMovie.id}`}
+              >
                 <img
                   className={styles.posterImage}
                   src={`https://image.tmdb.org/t/p/original/${upcomingMovie.poster_path}`}
@@ -111,7 +123,11 @@ const HomePage = () => {
         <SliderWrapper>
           {tvshowsAiringToday &&
             tvshowsAiringToday.results.map((tvshowAiringToday) => (
-              <Card key={tvshowAiringToday.id} cardWidth={200}>
+              <Card
+                key={tvshowAiringToday.id}
+                cardWidth={200}
+                path={`/tv/detail/${tvshowAiringToday.id}`}
+              >
                 <img
                   className={styles.posterImage}
                   src={`https://image.tmdb.org/t/p/original/${tvshowAiringToday.poster_path}`}

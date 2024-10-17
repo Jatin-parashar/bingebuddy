@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Header.module.css";
+import { getSearchedContent } from "../services/apiService";
+import Modal from "./Modal";
 
 const contentTypeOptions = {
   movie: [
@@ -24,6 +26,11 @@ const Header = () => {
   const movieDropdownRef = useRef(null);
   const tvDropdownRef = useRef(null);
   const navigate = useNavigate(); // Initialize the useNavigate hook for navigation
+
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => setIsOpen(false);
 
   const handleDropdownToggle = (type) => {
     setOpenDropdown(openDropdown === type ? null : type);
@@ -69,18 +76,21 @@ const Header = () => {
     );
   };
 
+  const handleSearch = async () => {
+    handleOpen();
+  };
   return (
     <header className={styles.header}>
-      <div
-        className={styles.logo}
-        onClick={() => {
-          navigate("/");
-        }}
-      >
-        <h1>BingeBuddy</h1>
-      </div>
-
+      <Modal isOpen={isOpen} onClose={handleClose} />
       <nav className={styles.nav}>
+        <div
+          className={styles.logo}
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          <h1>BingeBuddy</h1>
+        </div>
         <div
           className={styles.navItem}
           onClick={() => handleDropdownToggle("Movies")}
@@ -104,7 +114,7 @@ const Header = () => {
         <FontAwesomeIcon
           icon={faSearch}
           onClick={() => {
-            console.log("CLICKED");
+            handleSearch();
           }}
         />
       </div>

@@ -15,18 +15,27 @@ const ContentDetail = ({ details }) => {
             <img
               className={styles.poster}
               src={`https://image.tmdb.org/t/p/original/${details.poster_path}`}
-              alt={`${details.title || "No Title"} Poster`}
+              alt={`${details.title || details.name || "No Title"} Poster`}
             />
           )}
           <div className={styles.details}>
             <h2 className={styles.title}>
-              {details.title || "No Title Available"}
+              {details.title || details.name || "No Title Available"}
             </h2>
             <div className={styles.info}>
-              {details.release_date && (
-                <span className={styles.releaseDate}>
-                  {details.release_date.replace(/-/g, ".")}
-                </span>
+              {(details.release_date || details.first_air_date) && (
+                <>
+                  {details.releaseDate && (
+                    <span className={styles.releaseDate}>
+                      {details.release_date.replace(/-/g, ".")}
+                    </span>
+                  )}
+                  {details.first_air_date && (
+                    <span className={styles.releaseDate}>
+                      {details.first_air_date.replace(/-/g, ".")}
+                    </span>
+                  )}
+                </>
               )}
               {details.runtime && (
                 <span className={styles.runtime}>

@@ -26,27 +26,25 @@ export const getTrending = async () => {
   return await apiClient.get(`/trending/all/day`);
 };
 
+export const getSearchedContent = async (queryString) => {
+  return await apiClient.get(`/search/multi?query=${queryString}&include_adult=false&language=en-US&page=1`);
+};
 
 
-// Assuming apiClient is your Axios instance
-apiClient.interceptors.request.use((config) => {
-    const { baseURL, url, method, headers, params, data } = config;
-  
-    // Construct the full URL with baseURL and path
-    const fullUrl = `${baseURL}${url}`;
-    
-    // Log the full API request details
-    console.log("Intercepted API Request:");
-    console.log("URL:", fullUrl);
-    console.log("Method:", method);
-    console.log("Headers:", headers);
-    console.log("Params:", params);
-    console.log("Body:", data);
-  
-    // Return the modified config or just the original config if no changes are needed
-    return config;
-  }, (error) => {
-    // Handle errors before they are sent
-    return Promise.reject(error);
-  });
-  
+
+
+// apiClient.interceptors.request.use(
+//   (config) => {
+//     const { baseURL, url, method, headers, params, data } = config;
+
+//     console.log("Intercepted API Request:");
+//     console.log("Method:", method);
+//     console.log("Headers:", headers);
+//     console.log("Params:", params);
+//     console.log("Body:", data);
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );

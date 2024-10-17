@@ -13,6 +13,9 @@ import Card from "../components/common/Card";
 import Recommendations from "../components/MovieDetail/Recommendations";
 import Loading from "../components/common/Loading";
 import Cast from "../components/MovieDetail/Cast";
+import Reviews from "../components/Reviews/Reviews";
+
+import styles from "./ContentDetailPage.module.css"; // Import the CSS module
 
 const ContentDetailPage = () => {
   const { contentType, contentId } = useParams();
@@ -56,32 +59,30 @@ const ContentDetailPage = () => {
   }, [contentType, contentId]);
 
   return (
-    <>
+    <div>
       {(loading || error) && (
-        <div style={{ textAlign: "center", margin: "50px" }}>
+        <div className={styles.statusMessage}>
           {loading && <Loading />}
-
-          {error && <div>Error: {error}</div>}
+          {error && <div className={styles.errorMessage}>Error: {error}</div>}
         </div>
       )}
 
-      {/* If details exist, display content */}
       {!loading && !error && details && (
         <>
           <ContentDetail details={details} />
 
-          {/* Videos section */}
+          {/* Videos Section */}
           {videos && videos.results && videos.results.length > 0 && (
-            <>
-              <h3>Videos</h3>
+            <div className={styles.section}>
+              <h3 className={styles.sectionTitle}>Videos</h3>
               <Youtube videoData={videos.results[0]} />
-            </>
+            </div>
           )}
 
-          {/* Credits section (e.g., cast and crew) */}
+          {/* Credits Section */}
           {credits && (
-            <div>
-              <h3>Cast & Crew</h3>
+            <div className={styles.section}>
+              <h3 className={styles.sectionTitle}>Cast & Crew</h3>
 
               <SliderWrapper>
                 {credits.cast.map((person) => (
@@ -93,31 +94,33 @@ const ContentDetailPage = () => {
             </div>
           )}
 
-          <hr
-            style={{
-              width: "90%",
-              margin: "20px auto",
-              backgroundColor: "rgba(165, 42, 42, 0.7)",
-              height: "2px",
-              border: "none",
-            }}
-          />
+          {/* Reviews Section */}
+          <div className={styles.section}>
+          <h3 className={styles.sectionTitle}>Reviews</h3>
+            <Reviews />
+          </div>
 
-          <div>
-            <h3>Recommendations</h3>
+          {/* Recommendations Section */}
+          {recommendations && recommendations.results.length > 0 && (
+            <div className={styles.section}>
+              <h3 className={styles.sectionTitle}>Recommendations</h3>
 
-
-            <SliderWrapper>
+              <SliderWrapper>
                 {recommendations.results.map((movie) => (
                   <Card key={movie.id} cardWidth={200}>
-                    <Recommendations key={movie.id} movie={movie} imageWidth={200} />
+                    <Recommendations
+                      key={movie.id}
+                      movie={movie}
+                      imageWidth={200}
+                    />
                   </Card>
                 ))}
               </SliderWrapper>
-          </div>
+            </div>
+          )}
         </>
       )}
-    </>
+    </div>
   );
 };
 

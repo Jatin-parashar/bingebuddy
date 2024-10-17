@@ -10,6 +10,25 @@
   text-align: center;
 }
 
+
 body {
   font-family: Arial, sans-serif;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* Modal CSS (To be shifted later) */
+
+/* ModalComponent.css */
+body.modal-open {
+  overflow: hidden;
+  /* Prevent background scrolling when modal is open */
 }

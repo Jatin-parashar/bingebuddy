@@ -1,0 +1,71 @@
+/* Card container styling */
+.card {
+    /* background-color: #fff; */
+    border-radius: 12px;
+    /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); */
+    padding: 20px;
+    /* max-width: 400px; */
+    max-width: 90%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+
+}
+
+/* Form input styles */
+.inputField,
+.textArea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    box-sizing: border-box;
+    background-color: white;
+    color: black;
+
+}
+
+.textArea {
+    resize: none;
+    height: 100px;
+}
+
+/* Button styles */
+.button {
+    background-color: #007BFF;
+    background-color: #b22222;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    /* border-radius: 8px; */
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    /* border-top-right-radius: 20px; */
+    /* border-bottom-left-radius: 20px; */
+}
+
+/* .button:hover {
+    background-color: #0056b3;
+} */
+
+.cancelButton {
+    background-color: #ff4d4f;
+}
+
+.cancelButton:hover {
+    background-color: #d43537;
+}
+
+/* Error message styling */
+.error {
+    color: #d43537;
+    font-size: 14px;
+    margin-bottom: 15px;
+}
