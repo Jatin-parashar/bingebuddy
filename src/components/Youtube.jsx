@@ -1,9 +1,8 @@
 import React from "react";
-import styles from './YouTube.module.css'; // Import the CSS module
+import styles from "./YouTube.module.css";
 
 const Youtube = ({ videoData }) => {
   const videoUrl = `https://www.youtube.com/embed/${videoData.key}`;
-  console.log(videoUrl);
 
   return (
     <div className={styles.trailerWrapper}>
@@ -14,7 +13,6 @@ const Youtube = ({ videoData }) => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
       ></iframe>
-      
     </div>
   );
 };

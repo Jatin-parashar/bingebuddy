@@ -110,13 +110,16 @@ const Header = () => {
         </div>
       </nav>
 
-      <div className={styles.search}>
-        <FontAwesomeIcon
-          icon={faSearch}
-          onClick={() => {
-            handleSearch();
-          }}
-        />
+      <div className={styles.end}>
+        <div style={{fontSize:"18px",cursor:"pointer"}} onClick={()=>{navigate("/wishlist")}}>Wishlist</div>
+        <div className={styles.search}>
+          <FontAwesomeIcon
+            icon={faSearch}
+            onClick={() => {
+              handleSearch();
+            }}
+          />
+        </div>
       </div>
     </header>
   );

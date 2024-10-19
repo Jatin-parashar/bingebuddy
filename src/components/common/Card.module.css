@@ -5,7 +5,7 @@
     text-align: center;
     color: white;
     font-size: 14px;
-    width: auto; /* Ensures the width is based on content */
-    height: auto; /* Ensures the height is based on content */
+    width: auto; 
+    height: auto; 
     cursor: pointer;
 }

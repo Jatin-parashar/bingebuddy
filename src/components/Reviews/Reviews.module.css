@@ -1,0 +1,17 @@
+.icon-button {
+    background-color: #b22222;
+    color: white;
+    padding: 5px;
+    margin: 0 10px;
+    border-radius: 50%; /* Makes it round */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;  /* Adjust size as needed */
+    height: 20px; /* Adjust size as needed */
+  }
+  
+  .icon-button:hover {
+    background-color: darkred; /* Optional: change background on hover */
+  }
+  

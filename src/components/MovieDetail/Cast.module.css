@@ -1,3 +1,24 @@
+.cast {
+    width: 120px;
+    height: auto;
+}
+
 .poster {
-    border-radius: 50%; /* Keep the round image */
+    border-radius: 50%;
+    width: 70px;
+    height: 67px;
+}
+
+.name {
+    font-size: 14px;
+    /* border: 2px solid red; */
+    color: white;
+
+}
+
+.character {
+    font-size: 14px;
+    /* border: 2px solid red; */
+    color: rgb(129, 129, 129);
+   
 }

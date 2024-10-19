@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./AddReview.module.css"; // Import the CSS module
+import styles from "./AddReview.module.css"; 
 import axios from "axios";
 
 const AddReview = ({ triggerRerender }) => {
@@ -39,7 +39,6 @@ const AddReview = ({ triggerRerender }) => {
 
       console.log("Review submitted successfully!");
 
-      // Trigger to allow Display Review component to re-render
       triggerRerender();
     } catch (err) {
       console.error("Error submitting the review:", err);

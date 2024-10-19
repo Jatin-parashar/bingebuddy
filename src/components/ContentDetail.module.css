@@ -13,9 +13,10 @@
     width: 100%;
     background-size: cover;
     background-position: center;
-    position: relative; /* Important for absolute positioning of the pseudo-element */
-    overflow: hidden; /* Prevents any overflow from the pseudo-element */
-    background-color: black; /* Ensure the background color is black */
+    position: relative;
+    overflow: hidden; 
+    background-color: black;
+    /* opacity: 0.5; */
 }
 
 .contentWrapper::after {
@@ -35,10 +36,9 @@
     display: flex;
     padding: 20px;
     width: 95%;
-  
     color:white;
-    /* top:-400px; */
   }
+ 
   
   .poster {
     width: 250px;

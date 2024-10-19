@@ -1,33 +1,7 @@
-.statusMessage {
-    text-align: left; /* Align text to the left */
-    margin: 50px 0;
-  }
-  
-  .errorMessage {
-    color: #b30000; /* Softer, muted red for error messages */
-    font-weight: bold; /* Emphasize errors */
-  }
-  
+
   .section {
-    margin-bottom: 60px; /* Increased space between sections */
-    padding: 0 5%; /* Add some horizontal padding for spaciousness */
-    text-align: left;
-    border: 2px solid red;
+    margin-bottom: 60px;
+    /* padding: 0 5%; */
   }
-  
-  .sectionTitle {
-    font-size: 2rem; /* Larger, royal-like font for section titles */
-    margin-bottom: 30px; /* More space between title and content */
-    color: #2c2c2c; /* Darker grey for a more professional tone */
-    font-weight: bold; /* Strong, bold titles for emphasis */
-    text-align: left; /* Keep titles left-aligned */
-  }
-  
-  .sliderWrapper {
-    margin: 30px 0; /* Well-spaced sliders */
-  }
-  
-  h3 {
-    color: #2c2c2c; /* Consistent dark grey for headers */
-  }
+
   

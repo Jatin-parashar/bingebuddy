@@ -27,24 +27,7 @@ export const getTrending = async () => {
 };
 
 export const getSearchedContent = async (queryString) => {
-  return await apiClient.get(`/search/multi?query=${queryString}&include_adult=false&language=en-US&page=1`);
+  return await apiClient.get(
+    `/search/multi?query=${queryString}&include_adult=false&language=en-US&page=1`
+  );
 };
-
-
-
-
-// apiClient.interceptors.request.use(
-//   (config) => {
-//     const { baseURL, url, method, headers, params, data } = config;
-
-//     console.log("Intercepted API Request:");
-//     console.log("Method:", method);
-//     console.log("Headers:", headers);
-//     console.log("Params:", params);
-//     console.log("Body:", data);
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );

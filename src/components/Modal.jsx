@@ -86,7 +86,7 @@ const Modal = ({ isOpen, onClose }) => {
           />
         </div>
 
-        <div style={{ margin: "20px 0", color: "white", cursor: "pointer" }}>
+        <div style={{ margin: "20px 0", color: "white" }}>
           {!keyword && <div> No searched Content </div>}
           {keyword && searchedData && searchedData.results.length === 0 && (
             <div>No results found!</div>

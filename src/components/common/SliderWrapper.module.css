@@ -1,11 +1,8 @@
-/* SliderWrapper.module.css */
 .sliderWrapper {
-    width: 90%;
     margin: 0 auto;
     overflow-x: auto;
     overflow-y: hidden;
     display: flex;
-    gap:40px;
 }
 
 

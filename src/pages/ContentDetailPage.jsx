@@ -15,7 +15,8 @@ import Loading from "../components/common/Loading";
 import Cast from "../components/MovieDetail/Cast";
 import Reviews from "../components/Reviews/Reviews";
 
-import styles from "./ContentDetailPage.module.css"; // Import the CSS module
+import styles from "./ContentDetailPage.module.css";
+import CardDisplay from "../components/common/CardDisplay";
 
 const ContentDetailPage = () => {
   const { contentType, contentId } = useParams();
@@ -59,68 +60,60 @@ const ContentDetailPage = () => {
   }, [contentType, contentId]);
 
   return (
-    <div>
-      {(loading || error) && (
-        <div className={styles.statusMessage}>
-          {loading && <Loading />}
-          {error && <div className={styles.errorMessage}>Error: {error}</div>}
-        </div>
-      )}
+    <>
+      {!loading && !error && details && <ContentDetail details={details} />}
+      <main>
+        {(loading || error) && (
+          <section style={{ textAlign: "center", margin: "50px" }}>
+            {loading && <Loading />}
+            {error && <div>Error: {error}</div>}
+          </section>
+        )}
 
-      {!loading && !error && details && (
-        <>
-          <ContentDetail details={details} />
+        {!loading && !error && details && (
+          <>
+            {videos && videos.results && videos.results.length > 0 && (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>Videos</h3>
+                <Youtube videoData={videos.results[0]} />
+              </section>
+            )}
 
-          {/* Videos Section */}
-          {videos && videos.results && videos.results.length > 0 && (
-            <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Videos</h3>
-              <Youtube videoData={videos.results[0]} />
-            </div>
-          )}
+            {credits && (
+              <section className={styles.section}>
+                <h3 className={styles.sectionTitle}>Cast & Crew</h3>
 
-          {/* Credits Section */}
-          {credits && (
-            <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Cast & Crew</h3>
+                <SliderWrapper gap="10px">
+                  {credits.cast.map((person) => (
+                    <Card key={person.id}>
+                      <Cast key={person.id} person={person} />
+                    </Card>
+                  ))}
+                </SliderWrapper>
+              </section>
+            )}
 
-              <SliderWrapper>
-                {credits.cast.map((person) => (
-                  <Card key={person.id} cardWidth={120}>
-                    <Cast key={person.id} person={person} imageWidth={70} />
-                  </Card>
-                ))}
-              </SliderWrapper>
-            </div>
-          )}
+            <section className={styles.section}>
+              <Reviews />
+            </section>
 
-          {/* Reviews Section */}
-          <div className={styles.section}>
-          <h3 className={styles.sectionTitle}>Reviews</h3>
-            <Reviews />
-          </div>
+            {recommendations && recommendations.results.length > 0 && (
+              <section className={styles.section}>
+                <h3>Recommendations</h3>
 
-          {/* Recommendations Section */}
-          {recommendations && recommendations.results.length > 0 && (
-            <div className={styles.section}>
-              <h3 className={styles.sectionTitle}>Recommendations</h3>
-
-              <SliderWrapper>
-                {recommendations.results.map((movie) => (
-                  <Card key={movie.id} cardWidth={200}>
-                    <Recommendations
-                      key={movie.id}
-                      movie={movie}
-                      imageWidth={200}
-                    />
-                  </Card>
-                ))}
-              </SliderWrapper>
-            </div>
-          )}
-        </>
-      )}
-    </div>
+                <SliderWrapper gap="40px">
+                  <CardDisplay
+                    cardWidth={"200px"}
+                    contentArray={recommendations.results}
+                    media_type={contentType}
+                  />
+                </SliderWrapper>
+              </section>
+            )}
+          </>
+        )}
+      </main>
+    </>
   );
 };
 
