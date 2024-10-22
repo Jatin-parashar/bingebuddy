@@ -5,8 +5,19 @@ import Loading from "../components/common/Loading";
 import Pagination from "../components/common/Pagination";
 import { getCategoryList } from "../services/apiService";
 
+const contentTypeOptions = {
+  movie: ["now_playing", "popular", "top_rated", "upcoming"],
+  tv: ["airing_today", "on_the_air", "popular", "top_rated"],
+};
+
 const CategoryListPage = () => {
-  const params = useParams();
+  const { contentType, category } = useParams();
+
+  if (!contentTypeOptions[contentType].includes(category)) {
+    throw new Error(
+      `Invalid category ${category} for ${contentType}`
+    );
+  }
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,11 +28,7 @@ const CategoryListPage = () => {
     const sendRequest = async () => {
       try {
         setLoading(true);
-        const response = await getCategoryList(
-          params.contentType,
-          params.category,
-          page
-        );
+        const response = await getCategoryList(contentType, category, page);
         setData(response.data);
       } catch (err) {
         setError(err.message);
@@ -31,7 +38,7 @@ const CategoryListPage = () => {
     };
 
     sendRequest();
-  }, [params.contentType, params.category, page]);
+  }, [contentType, category, page]);
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= data.total_pages) {
@@ -56,7 +63,7 @@ const CategoryListPage = () => {
                   <Link
                     className={styles.categoryItem}
                     key={result.id}
-                    to={`/${params.contentType}/detail/${result.id}`}
+                    to={`/${contentType}/detail/${result.id}`}
                   >
                     <img
                       src={`https://image.tmdb.org/t/p/original/${result.poster_path}`}

@@ -31,6 +31,8 @@ const HomePage = () => {
           (content) => content.media_type !== "person"
         );
         setTrending(trendingResult);
+
+        console.log(trendingResult);
         setUpcomingMovies(upcomingMoviesResponse.data);
         setTvshowsAiringToday(tvshowsAiringTodayResponse.data);
       } catch (err) {
@@ -62,7 +64,6 @@ const HomePage = () => {
                 <CardDisplay
                   cardWidth={"200px"}
                   contentArray={trending}
-                  media_type={trending.media_type}
                 />
               </SliderWrapper>
             </section>

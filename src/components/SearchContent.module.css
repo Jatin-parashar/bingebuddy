@@ -1,0 +1,117 @@
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    border-radius: 5px;
+    padding: 7px;
+
+}
+
+.icon {
+    padding: 5px;
+    color: white;
+}
+
+.modal-input {
+    /* width: 100%; */
+    padding: 8px;
+    outline: none;
+    /* border: 1px solid #ccc; */
+    border: none;
+    flex: 1;
+    background-color: inherit;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.modal-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cancel {
+    background-color: #f44336;
+    /* Red color for Cancel */
+    color: white;
+}
+
+.submit {
+    background-color: #4caf50;
+    /* Green color for Submit */
+    color: white;
+}
+
+.open-modal-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    /* Blue color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.searchedData {
+    height: 300px;
+    /* Fixed height */
+    overflow-y: auto;
+    /* Scrollable if content exceeds height */
+    padding: 10px;
+    color: white;
+}
+
+.searchedDataContent {
+    display: flex;
+    align-items: center;
+    /* Vertically center content */
+    justify-content: space-between;
+    background-color: rgb(44, 44, 44);
+    /* padding: 10px 0; */
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.searchedDataContent img {
+    width: 50px;
+    /* Mini image size */
+    height: auto;
+    margin-right: 15px;
+    /* Space between image and content name */
+}
+
+.searchedDataContent .content-info {
+    flex-grow: 1;
+    /* Allow the name to take up remaining space */
+    margin-right: 15px;
+}
+
+.searchedDataContent .content-media-type {
+    font-size: 14px;
+    margin-right: 20px;
+    /* border: 2px solid red; */
+    border-radius: 20px;
+    background-color: black;
+    padding: 3px 20px;
+    /* color: #999; */
+}

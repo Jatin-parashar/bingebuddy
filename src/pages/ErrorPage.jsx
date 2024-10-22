@@ -1,9 +1,9 @@
 import React from "react";
 import { useRouteError } from "react-router-dom";
 
-const ErrorPage = () => {
+const ErrorPage = ({ message }) => {
   const error = useRouteError();
-  console.error(error);
+  // console.error(error);
 
   return (
     <div
@@ -12,12 +12,15 @@ const ErrorPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        flexDirection:"column"
+        flexDirection: "column",
       }}
     >
       <h1>Oops! An error occurred.</h1>
-      <p>{error.statusText || error.message}</p>
-      <p>Error Code: {error.status || "Unknown"}</p>
+      {error ? (
+        <>
+          <p>{error.statusText || error.message}</p>
+        </>
+      ): <p>{message}</p>}
     </div>
   );
 };

@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./DisplayReviews.module.css"; // Import CSS module
+import styles from "./DisplayReviews.module.css";
+import usr from "../../assets/user-image.jpg";
 
 const DisplayReviews = ({ RefreshDisplay }) => {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
+  const [expanded, setExpanded] = useState({});
   const params = useParams();
 
   useEffect(() => {
@@ -17,7 +19,6 @@ const DisplayReviews = ({ RefreshDisplay }) => {
 
         const response = await axios.get(queryURL);
         const reviewsData = response.data;
-        console.log(reviewsData);
 
         if (!reviewsData) {
           setReviews([]);
@@ -27,11 +28,8 @@ const DisplayReviews = ({ RefreshDisplay }) => {
         const filteredReviews = Object.keys(reviewsData).map(
           (key) => reviewsData[key]
         );
-        console.log(filteredReviews);
-
         setReviews(filteredReviews);
       } catch (err) {
-        console.error("Error fetching reviews:", err);
         setError("Failed to load reviews. Please try again later.");
       }
     };
@@ -39,17 +37,54 @@ const DisplayReviews = ({ RefreshDisplay }) => {
     fetchReviews();
   }, [RefreshDisplay]);
 
+  const toggleReadMore = (index) => {
+    setExpanded((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
+  };
+
   return (
-    <div className={styles.reviewsContainer}> {/* Main container styling */}
-      {error && <div className={styles.error}>{error}</div>} {/* Error message */}
+    <div className={styles.reviewsContainer}>
+      {error && <div className={styles.error}>{error}</div>}
 
       {reviews.length > 0 ? (
-        <ul className={styles.reviewList}> {/* List styling */}
+        <ul className={styles.reviewList}>
           {reviews.map((review, index) => (
-            <li key={index} className={styles.reviewItem}> {/* Individual review item */}
-              <div className={styles.reviewerName}>{review.name}</div> {/* Reviewer name */}
-              <div className={styles.reviewText}>{review.review}</div> {/* Review content */}
-              <div className={styles.rating}>Rating: {review.rating}/10</div> {/* Rating */}
+            <li key={index} className={styles.reviewItem}>
+              <div className={styles.reviewHeader}>
+                <div className={styles.imageContainer}>
+                  <img
+                    src={usr}
+                    alt="Reviewer"
+                  />
+                </div>
+                <div className={styles.reviewerDetails}>
+                  <div className={styles.reviewerName}>{review.name}</div>
+                  <div className={styles.reviewDate}>
+                    {review.createdAt}
+                  </div>
+                </div>
+                <div className={styles.rating}>{review.rating}/10 ⭐ </div>
+              </div>
+
+              <div className={styles.reviewBody}>
+                <div className={styles.reviewText}>
+                  {expanded[index]
+                    ? review.review
+                    : review.review.length > 150
+                    ? `${review.review.substring(0, 150)}...`
+                    : review.review}
+                </div>
+                {review.review.length > 150 && (
+                  <span
+                    className={styles.readMore}
+                    onClick={() => toggleReadMore(index)}
+                  >
+                    {expanded[index] ? "Read Less" : "Read More"}
+                  </span>
+                )}
+              </div>
             </li>
           ))}
         </ul>

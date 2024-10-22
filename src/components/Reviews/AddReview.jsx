@@ -1,22 +1,15 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
-import styles from "./AddReview.module.css"; 
+import styles from "./AddReview.module.css";
 import axios from "axios";
 
-const AddReview = ({ triggerRerender }) => {
+const AddReview = ({ triggerRerender, handleClose }) => {
   const params = useParams();
-  const [showAddReview, setShowAddReview] = useState(false);
   const [error, setError] = useState(null);
-
-  const handleAddReview = () => {
-    setShowAddReview(true);
-    setError(null);
-  };
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    setShowAddReview(false);
-    setError(null); // Clear previous errors on form submission
+    setError(null);
 
     const formData = new FormData(event.target);
 
@@ -25,9 +18,11 @@ const AddReview = ({ triggerRerender }) => {
       name: formData.get("name"),
       review: formData.get("review"),
       rating: formData.get("rating"),
+      createdAt: new Date().toLocaleString(),
     };
 
     event.target.reset();
+    handleClose();
 
     try {
       await axios.post(
@@ -47,57 +42,52 @@ const AddReview = ({ triggerRerender }) => {
   };
 
   return (
-    <div className={styles.card}> {/* Apply the card styling */}
-      {error && <div className={styles.error}>{error}</div>} {/* Error message */}
-      
-      {!showAddReview && (
-        <button className={styles.button} onClick={handleAddReview}>
-          Click here to drop your Review
-        </button>
-      )}
-      {showAddReview && (
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Enter your name"
-            required
-            className={styles.inputField}  // Apply input styling
-          />
-          <textarea
-            name="review"
-            placeholder="Write your review here..."
-            required
-            maxLength={200}
-            minLength={30}
-            className={styles.textArea}  // Apply textarea styling
-          />
-          <input
-            type="number"
-            name="rating"
-            max={10}
-            min={1}
-            defaultValue={1}
-            required
-            className={styles.inputField} // Apply input styling
-          />
-          <div>
-            <button type="submit" className={styles.button}>
-              Submit your Review
-            </button>
-            <button
-              type="button"
-              className={`${styles.button} ${styles.cancelButton}`} // Apply cancel button styling
-              onClick={() => {
-                setShowAddReview(false);
-                setError(null);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      )}
+    <div className={styles.card}>
+      {error && <div className={styles.error}>{error}</div>}
+      <form onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          required
+          className={styles.inputField}
+          autoComplete="off"
+        />
+        <textarea
+          name="review"
+          placeholder="Write your review here..."
+          required
+          maxLength={200}
+          minLength={30}
+          className={styles.textArea}
+          autoComplete="off"
+        />
+        <input
+          type="number"
+          name="rating"
+          max={10}
+          min={1}
+          defaultValue={1}
+          required
+          className={styles.inputField}
+          autoComplete="off"
+        />
+        <div>
+          <button type="submit" className={styles.button}>
+            Submit your Review
+          </button>
+          <button
+            type="button"
+            className={`${styles.button} ${styles.cancelButton}`}
+            onClick={() => {
+              setError(null);
+              handleClose();
+            }}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   );
 };

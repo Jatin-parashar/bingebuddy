@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Header.module.css";
 import { getSearchedContent } from "../services/apiService";
-import Modal from "./Modal";
+import SearchContent from "./SearchContent";
+import Modal from "./common/Modal";
 
 const contentTypeOptions = {
   movie: [
@@ -25,7 +26,7 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const movieDropdownRef = useRef(null);
   const tvDropdownRef = useRef(null);
-  const navigate = useNavigate(); // Initialize the useNavigate hook for navigation
+  const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,10 +55,9 @@ const Header = () => {
     };
   }, []);
 
-  // Handle navigation when clicking on dropdown items
   const handleNavigation = (path) => {
-    navigate(path); // Navigate to the desired path
-    setOpenDropdown(null); // Close the dropdown after navigation
+    navigate(path);
+    setOpenDropdown(null);
   };
 
   const renderDropdownOptions = (contentType) => {
@@ -81,7 +81,9 @@ const Header = () => {
   };
   return (
     <header className={styles.header}>
-      <Modal isOpen={isOpen} onClose={handleClose} />
+      <Modal isOpen={isOpen} onClose={handleClose}>
+        <SearchContent />
+      </Modal>
       <nav className={styles.nav}>
         <div
           className={styles.logo}
@@ -111,7 +113,14 @@ const Header = () => {
       </nav>
 
       <div className={styles.end}>
-        <div style={{fontSize:"18px",cursor:"pointer"}} onClick={()=>{navigate("/wishlist")}}>Wishlist</div>
+        <div
+          style={{ fontSize: "18px", cursor: "pointer" }}
+          onClick={() => {
+            navigate("/favorites");
+          }}
+        >
+          Favorites
+        </div>
         <div className={styles.search}>
           <FontAwesomeIcon
             icon={faSearch}

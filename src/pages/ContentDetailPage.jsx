@@ -20,6 +20,12 @@ import CardDisplay from "../components/common/CardDisplay";
 
 const ContentDetailPage = () => {
   const { contentType, contentId } = useParams();
+  console.log(contentType,contentId)
+  console.log(Number.isInteger(contentId))
+  if (!Number.isInteger((Number(contentId)))) {
+
+    throw new Error("Page does not exist");
+  }
 
   const [details, setDetails] = useState(null);
   const [credits, setCredits] = useState(null);
