@@ -31,8 +31,6 @@ const HomePage = () => {
           (content) => content.media_type !== "person"
         );
         setTrending(trendingResult);
-
-        console.log(trendingResult);
         setUpcomingMovies(upcomingMoviesResponse.data);
         setTvshowsAiringToday(tvshowsAiringTodayResponse.data);
       } catch (err) {

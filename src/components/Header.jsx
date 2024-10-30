@@ -6,6 +6,8 @@ import styles from "./Header.module.css";
 import { getSearchedContent } from "../services/apiService";
 import SearchContent from "./SearchContent";
 import Modal from "./common/Modal";
+import userImg from "../assets/user-image.png";
+import { useUserAuth } from "../store/UserAuthContextProvider";
 
 const contentTypeOptions = {
   movie: [
@@ -26,9 +28,13 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
   const movieDropdownRef = useRef(null);
   const tvDropdownRef = useRef(null);
+  const profileDropdownRef = useRef(null);
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const { user, logOut } = useUserAuth();
+  // console.log("User at Header", user);
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -37,12 +43,25 @@ const Header = () => {
     setOpenDropdown(openDropdown === type ? null : type);
   };
 
+  const handleLogin = () => {
+    handleNavigation("/login");
+  };
+  const handleLogout = async () => {
+    try {
+      await logOut();
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
   const handleClickOutside = (event) => {
     if (
       movieDropdownRef.current &&
       !movieDropdownRef.current.contains(event.target) &&
       tvDropdownRef.current &&
-      !tvDropdownRef.current.contains(event.target)
+      !tvDropdownRef.current.contains(event.target) &&
+      profileDropdownRef.current &&
+      !profileDropdownRef.current.contains(event.target)
     ) {
       setOpenDropdown(null);
     }
@@ -82,7 +101,7 @@ const Header = () => {
   return (
     <header className={styles.header}>
       <Modal isOpen={isOpen} onClose={handleClose}>
-        <SearchContent />
+        <SearchContent onClose={handleClose} />
       </Modal>
       <nav className={styles.nav}>
         <div
@@ -113,14 +132,6 @@ const Header = () => {
       </nav>
 
       <div className={styles.end}>
-        <div
-          style={{ fontSize: "18px", cursor: "pointer" }}
-          onClick={() => {
-            navigate("/favorites");
-          }}
-        >
-          Favorites
-        </div>
         <div className={styles.search}>
           <FontAwesomeIcon
             icon={faSearch}
@@ -128,6 +139,39 @@ const Header = () => {
               handleSearch();
             }}
           />
+        </div>
+
+        <div
+          ref={profileDropdownRef}
+          style={{ width: "28px", height: "28px" }}
+          onClick={() => handleDropdownToggle("Profile")}
+        >
+          {user && user.photoURL ? (
+            <img
+              src={user.photoURL}
+              alt="User"
+              style={{ width: "28px", height: "28px", borderRadius: "50%" }}
+            />
+          ) : (
+            <img
+              src={userImg}
+              alt="Default User"
+              style={{ width: "28px", height: "28px", borderRadius: "50%" }}
+            />
+          )}
+
+          {openDropdown === "Profile" && (
+            <ul className={styles.profileDropdown}>
+              {user ? (
+                <>
+                  <li onClick={() => handleNavigation("/profile")}>Profile</li>
+                  <li onClick={handleLogout}>Logout</li>
+                </>
+              ) : (
+                <li onClick={handleLogin}>Login</li>
+              )}
+            </ul>
+          )}
         </div>
       </div>
     </header>

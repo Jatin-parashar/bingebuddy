@@ -16,7 +16,7 @@ function throttle(fn, limit) {
   };
 }
 
-const SearchContent = ({}) => {
+const SearchContent = ({onClose}) => {
   const [keyword, setKeyword] = useState("");
   const [searchedData, setSearchedData] = useState(null);
   const navigate = useNavigate();
@@ -32,11 +32,10 @@ const SearchContent = ({}) => {
   const throttledFetch = useRef(
     throttle(async (keyword) => {
       if (keyword) {
-        console.log("Fetching data for keyword:", keyword);
+        // console.log("Fetching data for keyword:", keyword);
         const response = await getSearchedContent(keyword);
         const data = response.data;
         setSearchedData(data);
-        console.log(data);
       }
     }, 1000)
   );

@@ -5,29 +5,55 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Reviews.module.css";
 import Modal from "../common/Modal";
+import { useUserAuth } from "../../store/UserAuthContextProvider";
+import { getReviewByEmail } from "../../db/firebasedb";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Reviews = () => {
-  const [RefreshDisplay, setRefreshDisplay] = useState(false);
+  const { contentType, contentId } = useParams();
+  const { user } = useUserAuth();
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [hasReviewed, setHasReviewed] = useState(false);
 
-  const triggerRerender = () => {
-    setRefreshDisplay((prev) => !prev);
+  const handleOpen = async () => {
+    if (user) {
+      const reviewExists = await getReviewByEmail(
+        `${contentType}reviews/${contentId}`,
+        user.email
+      );
+      if (reviewExists) {
+        setHasReviewed(true);
+        return;
+      }
+      setHasReviewed(false);
+      setIsOpen(true);
+    } else {
+      navigate("/login");
+    }
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
   return (
     <>
       <h3>
         <span>Reviews</span>
-        <FontAwesomeIcon icon={faPlus} className={styles["icon-button"]} onClick={handleOpen}/>
+        <div className={styles.tooltip}>
+          <FontAwesomeIcon
+            icon={faPlus}
+            className={styles["icon-button"]}
+            onClick={handleOpen}
+          />
+          <span className={styles.tooltiptext}>
+            {hasReviewed ? "You have reviewed" : "Add your review"}
+          </span>
+        </div>
       </h3>
       <Modal isOpen={isOpen} onClose={handleClose}>
-        <AddReview handleClose={handleClose} triggerRerender={triggerRerender} />
+        <AddReview user={user} handleClose={handleClose} />
       </Modal>
-      <DisplayReviews RefreshDisplay={RefreshDisplay} />
+      <DisplayReviews />
     </>
   );
 };

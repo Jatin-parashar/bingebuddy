@@ -1,0 +1,44 @@
+.headerIntro{
+    /* border: 5px solid #b22222;
+    border-radius: 20px; */
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.profilePoster{
+    /* background-color: #b22222; */
+    background-color: white;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    flex:0.7;
+}
+
+.introductoryContent{
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    flex:0.3;
+    background-color: black;
+    color:white;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.introductoryContent img{
+    height:5rem;
+    position:absolute;
+    top:-40px;
+    left: 40px;
+    border: 5px solid black;
+    border-radius: 10px;
+}
+.introductoryContent > div {
+    border: 2px solid red;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}

@@ -1,21 +1,21 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getDatabase } from "firebase/database";
 
-// web app's Firebase configuration
+
 const firebaseConfig = {
-  apiKey: "AIzaSyDvZyxOHzqdvRQSwA6N1j5zRYJPy8JF1ZI",
-  authDomain: "movieapp0review.firebaseapp.com",
-  databaseURL: "https://movieapp0review-default-rtdb.firebaseio.com",
-  projectId: "movieapp0review",
-  storageBucket: "movieapp0review.appspot.com",
-  messagingSenderId: "91002567278",
-  appId: "1:91002567278:web:63736944abb12a1747847f",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
+
+// admin.initializeApp(firebaseConfig);
+// export const userInfo = (email) => admin.auth().getUserByEmail(email);
 const app = initializeApp(firebaseConfig);
-
-// Initialize Realtime Database and get a reference to the service
-const database = getDatabase(app); // Add this line
-
-export { app, database }; // Export the database reference
+export const auth = getAuth(app);
+export const db = getDatabase(app);

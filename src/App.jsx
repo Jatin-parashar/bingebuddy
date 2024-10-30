@@ -6,6 +6,10 @@ import CategoryListPage from "./pages/CategoryListPage";
 import ContentDetailPage from "./pages/ContentDetailPage";
 import ErrorPage from "./pages/ErrorPage";
 import ValidContentType from "./components/ValidContentType";
+import { UserAuthContextProvider } from "./store/UserAuthContextProvider";
+import AuthenticationPage from "./pages/AuthenticationPage";
+import ProfilePage from "./pages/ProfilePage";
+import ProtectedRoute from "./pages/ProtectedRoute";
 
 function App() {
   const router = createBrowserRouter([
@@ -31,12 +35,25 @@ function App() {
             </ValidContentType>
           ),
         },
-        { path: "/favorites", element: <div>Favorites</div> },
+        {
+          path: "/profile",
+          element: (
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          ),
+        },
       ],
     },
+    { path: "/login", element: <AuthenticationPage type="login" /> },
+    { path: "/signup", element: <AuthenticationPage type="signup" /> },
     { path: "*", element: <ErrorPage message="Page does not exist" /> },
   ]);
-  return <RouterProvider router={router} />;
+  return (
+    <UserAuthContextProvider>
+      <RouterProvider router={router} />
+    </UserAuthContextProvider>
+  );
 }
 
 export default App;
