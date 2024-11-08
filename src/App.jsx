@@ -10,6 +10,7 @@ import { UserAuthContextProvider } from "./store/UserAuthContextProvider";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import ProfilePage from "./pages/ProfilePage";
 import ProtectedRoute from "./pages/ProtectedRoute";
+import RedirectIfAuthenticatedPage from "./pages/RedirectIfAuthenticatedPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -45,10 +46,25 @@ function App() {
         },
       ],
     },
-    { path: "/login", element: <AuthenticationPage type="login" /> },
-    { path: "/signup", element: <AuthenticationPage type="signup" /> },
+    {
+      path: "/login",
+      element: (
+        <RedirectIfAuthenticatedPage>
+          <AuthenticationPage type="login" />
+        </RedirectIfAuthenticatedPage>
+      ),
+    },
+    {
+      path: "/signup",
+      element: (
+        <RedirectIfAuthenticatedPage>
+          <AuthenticationPage type="signup" />
+        </RedirectIfAuthenticatedPage>
+      ),
+    },
     { path: "*", element: <ErrorPage message="Page does not exist" /> },
   ]);
+
   return (
     <UserAuthContextProvider>
       <RouterProvider router={router} />

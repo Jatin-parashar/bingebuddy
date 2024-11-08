@@ -27,12 +27,11 @@ import {
   linkWithCredential,
 } from "firebase/auth";
 import { appendToList, deleteData } from "../../db/firebasedb";
+import { fetchData, writeData } from "../../db/firebasedb.js";
 
 const Auth = ({ type }) => {
   const { logIn, signUp, googleSignIn, user } = useUserAuth();
-  if(user) {
-    return <Navigate to="/" />
-  }
+  
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -40,13 +39,24 @@ const Auth = ({ type }) => {
     name: "",
   });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(""); // To store the error message
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  async function imageToBase64(url) {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const reader = new FileReader();
+
+    return new Promise((resolve) => {
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsDataURL(blob);
+    });
+  }
 
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -56,6 +66,22 @@ const Auth = ({ type }) => {
     try {
       setLoading(true);
       await googleSignIn();
+      const user = auth.currentUser;
+      const userData = await fetchData(`users/${user.uid}`);
+      if (!userData) {
+        // const base64String = await imageToBase64(user.photoURL);
+        await writeData(`users/${user.uid}`, {
+          email: user.email,
+          // photo: user.photoURL ? user.photoURL : "",
+          // phoneNumber: user.phoneNumber ? user.phoneNumber : "",
+          name: user.displayName,
+          createdAt: new Date().toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+          }),
+        });
+      }
+
       navigate("/");
     } catch (error) {
       setError("Google sign-in failed. Please try again.");
@@ -70,25 +96,23 @@ const Auth = ({ type }) => {
     return new Promise((resolve, reject) => {
       const interval = setInterval(async () => {
         try {
-          await user.reload(); // Refresh user data from Firebase
-          const currentUser = auth.currentUser; // Get the updated user
+          await user.reload();
+          const currentUser = auth.currentUser;
 
-          // Check if the email is verified
           if (currentUser && currentUser.emailVerified) {
-            clearInterval(interval); // Clear the interval if verified
-            resolve(); // Resolve the promise
+            clearInterval(interval);
+            resolve();
           }
         } catch (error) {
-          clearInterval(interval); // Clear the interval in case of error
+          clearInterval(interval);
           reject(
             new Error(`Error checking email verification: ${error.message}`)
           );
         }
-      }, 5000); // Check every 5 seconds
+      }, 5000);
 
-      // Set a timeout to stop checking after 90 seconds
       const timer = setTimeout(async () => {
-        clearInterval(interval); // Clear the interval after timeout
+        clearInterval(interval);
         try {
           await user.reload();
           const currentUser = auth.currentUser;
@@ -126,23 +150,22 @@ const Auth = ({ type }) => {
       } else if (type === "signup") {
         // Create the user with email and password
         await signUp(email, password);
-
         user = auth.currentUser;
-
-        // Send verification email to the user
         await sendEmailVerification(user);
         // await sendEmailVerification(user, { url: "http://localhost:5173/" });
-
-        // Await the email verification check
         await checkEmailVerification(user);
-
-        // // Create an email/password credential to link with the user
-        // const credential = EmailAuthProvider.credential(email, password);
-
-        // await linkWithCredential(user, credential);
-
-        // Update user profile with the display name
         await updateProfile(user, { displayName: name });
+        // const username = extractUsername(email);
+        await writeData(`users/${user.uid}`, {
+          email: email,
+          // photo: "",
+          // phoneNumber: "",
+          name: name,
+          createdAt: new Date().toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "short",
+          }),
+        });
       }
       navigate("/");
     } catch (err) {
@@ -198,6 +221,11 @@ const Auth = ({ type }) => {
     setFormData({ email: "", password: "", name: "" });
     navigate(type === "login" ? "/signup" : "/login");
   };
+
+  function extractUsername(email) {
+    const parts = email.split("@");
+    return parts.length > 1 ? parts[0] : null;
+  }
 
   const handleCloseSnackbar = () => {
     setError("");
@@ -387,7 +415,7 @@ const Auth = ({ type }) => {
         disabled={loading}
       >
         <GoogleIcon sx={{ mr: 1 }} />
-        Sign {type === "login" ? "in" : "up"} with Google
+        {/* Sign {type === "login" ? "in" : "up"} with Google */}
       </Button>
     </Box>
   );

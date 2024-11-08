@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Header.module.css";
-import { getSearchedContent } from "../services/apiService";
 import SearchContent from "./SearchContent";
 import Modal from "./common/Modal";
 import userImg from "../assets/user-image.png";
@@ -32,9 +31,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-
   const { user, logOut } = useUserAuth();
-  // console.log("User at Header", user);
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -46,6 +43,7 @@ const Header = () => {
   const handleLogin = () => {
     handleNavigation("/login");
   };
+
   const handleLogout = async () => {
     try {
       await logOut();
@@ -98,6 +96,7 @@ const Header = () => {
   const handleSearch = async () => {
     handleOpen();
   };
+
   return (
     <header className={styles.header}>
       <Modal isOpen={isOpen} onClose={handleClose}>
@@ -143,20 +142,35 @@ const Header = () => {
 
         <div
           ref={profileDropdownRef}
-          style={{ width: "28px", height: "28px" }}
+          style={{ width: "28px", height: "28px", position: "relative" }}
           onClick={() => handleDropdownToggle("Profile")}
         >
-          {user && user.photoURL ? (
-            <img
-              src={user.photoURL}
-              alt="User"
-              style={{ width: "28px", height: "28px", borderRadius: "50%" }}
-            />
+          {user ? (
+            <div
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+                backgroundColor: "#aaa", 
+                color: "#fff", 
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontWeight: "bold",
+                fontSize: "14px",
+              }}
+            >
+              {user.displayName.charAt(0).toUpperCase()}
+            </div>
           ) : (
             <img
               src={userImg}
-              alt="Default User"
-              style={{ width: "28px", height: "28px", borderRadius: "50%" }}
+              alt="User"
+              style={{
+                width: "28px",
+                height: "28px",
+                borderRadius: "50%",
+              }}
             />
           )}
 
@@ -164,6 +178,7 @@ const Header = () => {
             <ul className={styles.profileDropdown}>
               {user ? (
                 <>
+                  <div>{user.displayName}</div>
                   <li onClick={() => handleNavigation("/profile")}>Profile</li>
                   <li onClick={handleLogout}>Logout</li>
                 </>
