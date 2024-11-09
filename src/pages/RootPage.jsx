@@ -1,14 +1,13 @@
-import { Outlet } from 'react-router-dom';
-import Header from '../components/Header';
+import { Outlet } from "react-router-dom";
+import Header from "../components/Header";
 
 const RootPage = () => {
   return (
     <>
-        <Header />
-        <Outlet />
+      <Header />
+      <Outlet />
     </>
+  );
+};
 
-  )
-}
-
-export default RootPage
+export default RootPage;

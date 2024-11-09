@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
   TextField,
   Button,
@@ -14,24 +14,18 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import GoogleIcon from "@mui/icons-material/Google";
-import { Form, Navigate, useNavigate } from "react-router-dom";
-import { useUserAuth } from "../../store/UserAuthContextProvider";
-import { auth } from "../../../firebase";
-import {
-  sendEmailVerification,
-  updateProfile,
-  deleteUser,
-  sendPasswordResetEmail,
-  fetchSignInMethodsForEmail,
-  EmailAuthProvider,
-  linkWithCredential,
-} from "firebase/auth";
-import { appendToList, deleteData } from "../../db/firebasedb";
+import { Form, useNavigate } from "react-router-dom";
 import { fetchData, writeData } from "../../db/firebasedb.js";
+import { auth } from "../../firebase/firebase.js";
+import {
+  deleteCurrentUser,
+  googleSignIn,
+  logIn,
+  resetPassword,
+  signUp,
+} from "../../firebase/firebaseAuth.js";
 
 const Auth = ({ type }) => {
-  const { logIn, signUp, googleSignIn, user } = useUserAuth();
-  
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -47,17 +41,6 @@ const Auth = ({ type }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  async function imageToBase64(url) {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const reader = new FileReader();
-
-    return new Promise((resolve) => {
-      reader.onloadend = () => resolve(reader.result);
-      reader.readAsDataURL(blob);
-    });
-  }
-
   const handleTogglePassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -69,11 +52,8 @@ const Auth = ({ type }) => {
       const user = auth.currentUser;
       const userData = await fetchData(`users/${user.uid}`);
       if (!userData) {
-        // const base64String = await imageToBase64(user.photoURL);
         await writeData(`users/${user.uid}`, {
           email: user.email,
-          // photo: user.photoURL ? user.photoURL : "",
-          // phoneNumber: user.phoneNumber ? user.phoneNumber : "",
           name: user.displayName,
           createdAt: new Date().toLocaleDateString("en-US", {
             year: "numeric",
@@ -91,75 +71,17 @@ const Auth = ({ type }) => {
     }
   };
 
-  const checkEmailVerification = async (user) => {
-    alert("Email Verification link shared to your email! Check your inbox.");
-    return new Promise((resolve, reject) => {
-      const interval = setInterval(async () => {
-        try {
-          await user.reload();
-          const currentUser = auth.currentUser;
-
-          if (currentUser && currentUser.emailVerified) {
-            clearInterval(interval);
-            resolve();
-          }
-        } catch (error) {
-          clearInterval(interval);
-          reject(
-            new Error(`Error checking email verification: ${error.message}`)
-          );
-        }
-      }, 5000);
-
-      const timer = setTimeout(async () => {
-        clearInterval(interval);
-        try {
-          await user.reload();
-          const currentUser = auth.currentUser;
-
-          if (currentUser && !currentUser.emailVerified) {
-            await deleteUser(currentUser);
-            reject(
-              new Error("Failed to sign up due to unfinished authentication.")
-            );
-          } else {
-            resolve();
-          }
-        } catch (error) {
-          reject(
-            new Error(
-              `Error checking email verification on timeout: ${error.message}`
-            )
-          );
-        }
-      }, 90000);
-
-      return () => clearTimeout(timer);
-    });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     const { name, email, password } = formData;
-    let user;
     try {
       if (type === "login") {
         await logIn(email, password);
       } else if (type === "signup") {
-        // Create the user with email and password
-        await signUp(email, password);
-        user = auth.currentUser;
-        await sendEmailVerification(user);
-        // await sendEmailVerification(user, { url: "http://localhost:5173/" });
-        await checkEmailVerification(user);
-        await updateProfile(user, { displayName: name });
-        // const username = extractUsername(email);
+        const user = await signUp(email, password, name);
         await writeData(`users/${user.uid}`, {
           email: email,
-          // photo: "",
-          // phoneNumber: "",
           name: name,
           createdAt: new Date().toLocaleDateString("en-US", {
             year: "numeric",
@@ -171,7 +93,7 @@ const Auth = ({ type }) => {
     } catch (err) {
       setError(`Error: ${err.message}`);
       if (user) {
-        await deleteUser(user);
+        await deleteCurrentUser(user);
       }
     } finally {
       setLoading(false);
@@ -186,26 +108,10 @@ const Auth = ({ type }) => {
       return;
     }
 
-    // try {
-    //   const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-    //   console.log(signInMethods);
-    //   if (signInMethods.length === 0) {
-    //     setError("No account found with this email.");
-    //     return;
-    //   }
-    // } catch (error) {
-    //   setError(
-    //     "An error occurred while verifying your email. Please try again later."
-    //   );
-    //   return;
-    // }
-
     setLoading(true);
     try {
-      await sendPasswordResetEmail(auth, email);
-      alert(
-        "If this email is associated with an account, a password reset link has been sent. Please check your inbox."
-      );
+      await resetPassword(email, null);
+      alert("Check your inbox for a reset link if your email is registered.");
     } catch (error) {
       if (error.code === "auth/user-not-found") {
         setError("No account found with this email.");

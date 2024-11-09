@@ -6,6 +6,7 @@ import { fetchData } from "../db/firebasedb";
 
 const ProfilePage = () => {
   const { user } = useUserAuth();
+  console.log(user)
   const userId = user.uid;
   const [userInfo, setUserInfo] = useState({});
 
@@ -29,7 +30,7 @@ const ProfilePage = () => {
         />
         <div className={styles.introductoryContent}>
           <div className={styles.profileIMG} alt="User">
-            {user.displayName.charAt(0).toUpperCase()}
+            {user && user.displayName && user.displayName.charAt(0).toUpperCase()}
           </div>
 
           <div className={styles.introductoryInfo}>

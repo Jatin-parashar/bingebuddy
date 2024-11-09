@@ -22,8 +22,6 @@ const Modal = ({ isOpen, onClose, children }) => {
     return () => {
       document.body.classList.remove(styles["modal-open"]);
       document.removeEventListener("mousedown", handleOutsideClick);
-
-      // reset logic here (tbd)
     };
   }, [isOpen]);
 

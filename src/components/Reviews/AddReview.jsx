@@ -27,12 +27,10 @@ const AddReview = ({ handleClose,user }) => {
     handleClose();
     
     try{
-      // writeData("/reviews/"+params.contentId+"/"+user.email, reviewData);
       const key = await appendToList(params.contentType+"reviews/"+params.contentId,reviewData);
-      // console.log("Review submitted successfully with key ",key);
     }
     catch(err){
-      console.error("Error submitting the review:", err);
+      // console.error("Error submitting the review:", err);
       setError("Failed to submit your review. Please try again.");
     }
 

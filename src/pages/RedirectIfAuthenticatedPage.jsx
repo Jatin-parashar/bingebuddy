@@ -2,11 +2,9 @@ import React from "react";
 import { useUserAuth } from "../store/UserAuthContextProvider";
 import { Navigate } from "react-router-dom";
 
-const RedirectIfAuthenticatedPage = ({children}) => {
+const RedirectIfAuthenticatedPage = ({ children }) => {
   const { user } = useUserAuth();
-
-  console.log(user);
-  if (user) {
+  if (user && user.emailVerified && user.displayName) {
     return <Navigate to="/" />;
   }
   return children;

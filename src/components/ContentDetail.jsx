@@ -63,11 +63,6 @@ const ContentDetail = ({ details }) => {
                 <strong>Plot:</strong> {details.overview}
               </div>
             )}
-            {/* {details.original_language && (
-              <div className={styles.language}>
-                <strong>Language:</strong> {details.original_language}
-              </div>
-            )} */}
             {details.tagline && (
               <div className={styles.tagline}>
                 <strong>Tagline:</strong> {details.tagline}

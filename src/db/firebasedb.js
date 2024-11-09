@@ -12,10 +12,11 @@ import {
   orderByChild,
   equalTo,
 } from "firebase/database";
+import { db } from "../firebase/firebase";
 // import { getDatabase, ref, remove, update } from "firebase/database";
 // import { getDatabase, ref, update, push, child } from "firebase/database";
 // import { getDatabase, ref, push, set } from "firebase/database";
-import { db } from "../../firebase";
+// import { db } from "../../firebase";
 
 /**
  * Write/Overwrite data to Firebase Realtime Database at a specified path.
@@ -187,9 +188,9 @@ export function deleteData(paths) {
   // If `paths` is a single path, use `remove()` to delete it.
   if (typeof paths === "string") {
     return remove(ref(db, paths))
-      .then(() => console.log(`Data at path '${paths}' deleted successfully.`))
+      // .then(() => console.log(`Data at path '${paths}' deleted successfully.`))
       .catch((error) => {
-        console.error(`Error deleting data at path '${paths}':`, error);
+        // console.error(`Error deleting data at path '${paths}':`, error);
         throw error;
       });
   }
@@ -202,9 +203,9 @@ export function deleteData(paths) {
     });
 
     return update(ref(db), updates)
-      .then(() => console.log("Data at multiple paths deleted successfully."))
+      // .then(() => console.log("Data at multiple paths deleted successfully."))
       .catch((error) => {
-        console.error("Error deleting data at multiple paths:", error);
+        // console.error("Error deleting data at multiple paths:", error);
         throw error;
       });
   }
@@ -237,7 +238,7 @@ export async function appendToList(path, data) {
   // Set the data at the new reference.
   return set(newItemRef, data)
     .then(() => {
-      console.log(`Data appended to '${path}' with key:`, newItemRef.key);
+      // console.log(`Data appended to '${path}' with key:`, newItemRef.key);
       return newItemRef.key; // Return the unique key of the new item.
     })
     .catch((error) => {
@@ -272,10 +273,10 @@ export async function getReviewByEmail(path, targetEmail) {
   try {
     const snapshot = await get(emailQuery);
     if (snapshot.exists()) {
-      console.log("Review is already present");
+      // console.log("Review is already present");
       return true;
     } else {
-      console.log("No review found for the specified email.");
+      // console.log("No review found for the specified email.");
       return false;
     }
   } catch (error) {

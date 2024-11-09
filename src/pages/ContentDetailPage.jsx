@@ -10,7 +10,6 @@ import {
 import ContentDetail from "../components/ContentDetail";
 import SliderWrapper from "../components/common/SliderWrapper";
 import Card from "../components/common/Card";
-import Recommendations from "../components/MovieDetail/Recommendations";
 import Loading from "../components/common/Loading";
 import Cast from "../components/MovieDetail/Cast";
 import Reviews from "../components/Reviews/Reviews";

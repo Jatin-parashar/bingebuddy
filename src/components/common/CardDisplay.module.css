@@ -3,7 +3,6 @@
     height: 300px;
     border-radius: 20px;
     transition: opacity 0.3s;
-    /* Smooth transition for the image opacity */
 }
 
 .posterImage:hover {
@@ -12,28 +11,19 @@
 
 .infoWrapper {
     text-align: center;
-    /* border: 2px solid blue; */
     width: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
     height: 70px;
-    /* Total height, adjust as needed */
 }
 
 .movieTitle {
     font-size: 16px;
     color: white;
     margin-top: 10px;
-
-
-    /* Ensuring the content stays in one line */
     white-space: nowrap;
-
-    /* Hides the overflowing content */
     overflow: hidden;
-
-    /* Shows ellipsis (...) if the content overflows */
     text-overflow: ellipsis;
 
 }
@@ -42,9 +32,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    /* border: 2px solid green; */
     flex-grow: 1;
-
 }
 
 .releaseYear {
@@ -55,5 +43,4 @@
 .rating {
     font-size: 14px;
     color: #FFA500;
-    /* Star color */
 }

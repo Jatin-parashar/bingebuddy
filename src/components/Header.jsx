@@ -7,6 +7,7 @@ import SearchContent from "./SearchContent";
 import Modal from "./common/Modal";
 import userImg from "../assets/user-image.png";
 import { useUserAuth } from "../store/UserAuthContextProvider";
+import { logOut } from "../firebase/firebaseAuth";
 
 const contentTypeOptions = {
   movie: [
@@ -31,7 +32,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [isOpen, setIsOpen] = useState(false);
-  const { user, logOut } = useUserAuth();
+  const { user } = useUserAuth();
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
@@ -145,14 +146,14 @@ const Header = () => {
           style={{ width: "28px", height: "28px", position: "relative" }}
           onClick={() => handleDropdownToggle("Profile")}
         >
-          {user ? (
+          {user && user.displayName ? (
             <div
               style={{
                 width: "28px",
                 height: "28px",
                 borderRadius: "50%",
-                backgroundColor: "#aaa", 
-                color: "#fff", 
+                backgroundColor: "#aaa",
+                color: "#fff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",

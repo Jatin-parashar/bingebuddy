@@ -3,7 +3,6 @@ import Loading from "../components/common/Loading";
 import { getCategoryList, getTrending } from "../services/apiService";
 import styles from "./HomePage.module.css";
 import SliderWrapper from "../components/common/SliderWrapper";
-import Card from "../components/common/Card";
 import CardDisplay from "../components/common/CardDisplay";
 
 const HomePage = () => {

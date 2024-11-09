@@ -1,4 +1,3 @@
-// SliderWrapper.js
 import React from "react";
 import styles from "./SliderWrapper.module.css";
 

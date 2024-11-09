@@ -11,51 +11,7 @@ const DisplayReviews = ({}) => {
   const [expanded, setExpanded] = useState({});
   const params = useParams();
 
-  // useEffect(() => {
-  //   const fetchReviews = async () => {
-  //     try {
-  //       const queryURL = `${
-  //         import.meta.env.VITE_FIREBASE_DATABASE_URL
-  //       }/reviews/${params.contentId}.json`;
-
-  //       const response = await axios.get(queryURL);
-  //       const reviewsData = response.data;
-
-  //       if (!reviewsData) {
-  //         setReviews([]);
-  //         return;
-  //       }
-
-  //       const filteredReviews = Object.keys(reviewsData).map(
-  //         (key) => reviewsData[key]
-  //       );
-  //       setReviews(filteredReviews);
-  //     } catch (err) {
-  //       setError("Failed to load reviews. Please try again later.");
-  //     }
-  //   };
-
-  //   fetchReviews();
-  // }, [RefreshDisplay]);
-
   useEffect(() => {
-    // async function fetchReviews() {
-    //   try {
-    //     const reviewsData = await fetchData("/reviews/" + params.contentId);
-    //     console.log("firebase", reviewsData);
-    //     if (!reviewsData) {
-    //       setReviews([]);
-    //       return;
-    //     }
-    //     const filteredReviews = Object.keys(reviewsData).map(
-    //       (key) => reviewsData[key]
-    //     );
-    //     setReviews(filteredReviews);
-    //   } catch (err) {
-    //     setError("Failed to load reviews. Please try again later.");
-    //   }
-    // }
-    // fetchReviews();
 
     const unsubscribe = listenForValueEvents(
       params.contentType+"reviews/" + params.contentId,
