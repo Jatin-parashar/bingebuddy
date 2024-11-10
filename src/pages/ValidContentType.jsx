@@ -1,5 +1,4 @@
-import React from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const ValidContentType = ({ children }) => {
   const { contentType } = useParams();

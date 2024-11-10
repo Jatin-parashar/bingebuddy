@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Youtube from "../components/Youtube";
+import Youtube from "../components/ContentDetail/Youtube";
 import {
   getContentDetails,
   getContentCredits,
   getContentVideos,
   getContentRecommendations,
 } from "../services/apiService";
-import ContentDetail from "../components/ContentDetail";
+import ContentDetail from "../components/ContentDetail/ContentDetail";
 import SliderWrapper from "../components/common/SliderWrapper";
 import Card from "../components/common/Card";
 import Loading from "../components/common/Loading";
-import Cast from "../components/MovieDetail/Cast";
+import Cast from "../components/ContentDetail/Cast";
 import Reviews from "../components/Reviews/Reviews";
 
 import styles from "./ContentDetailPage.module.css";

@@ -6,8 +6,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Reviews.module.css";
 import Modal from "../common/Modal";
 import { useUserAuth } from "../../store/UserAuthContextProvider";
-import { getReviewByEmail } from "../../db/firebasedb";
 import { useNavigate, useParams } from "react-router-dom";
+import { getItemByField } from "../../firebase/firebaseDB";
 
 const Reviews = () => {
   const { contentType, contentId } = useParams();
@@ -16,10 +16,15 @@ const Reviews = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
 
+  async function reviewExistsByEmail(path, targetEmail) {
+    const review = await getItemByField(path, "email", targetEmail);
+    return !!review;
+  }
+
   const handleOpen = async () => {
     if (user) {
-      const reviewExists = await getReviewByEmail(
-        `${contentType}reviews/${contentId}`,
+      const reviewExists = await reviewExistsByEmail(
+        `reviews/${contentType}/${contentId}`,
         user.email
       );
       if (reviewExists) {

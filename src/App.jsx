@@ -2,11 +2,10 @@ import React, { lazy, Suspense } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import ErrorPage from "./pages/ErrorPage";
-import ValidContentType from "./components/ValidContentType";
+import ValidContentType from "./pages/ValidContentType";
 import { UserAuthContextProvider } from "./store/UserAuthContextProvider";
 import SuspenseLoadingPage from "./pages/SuspenseLoadingPage";
 
-// Lazy load the components
 const RootPage = lazy(() => import("./pages/RootPage"));
 const HomePage = lazy(() => import("./pages/HomePage"));
 const CategoryListPage = lazy(() => import("./pages/CategoryListPage"));

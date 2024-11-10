@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./AddReview.module.css";
-import { appendToList } from "../../db/firebasedb";
+import { writeData } from "../../firebase/firebaseDB";
 
 const AddReview = ({ handleClose,user }) => {
   const params = useParams();
@@ -27,10 +27,10 @@ const AddReview = ({ handleClose,user }) => {
     handleClose();
     
     try{
-      const key = await appendToList(params.contentType+"reviews/"+params.contentId,reviewData);
+      // const key = await appendToList("reviews/"+params.contentType+"/"+params.contentId,reviewData);
+      await writeData("reviews/"+params.contentType+"/"+params.contentId+"/"+user.uid, reviewData)
     }
     catch(err){
-      // console.error("Error submitting the review:", err);
       setError("Failed to submit your review. Please try again.");
     }
 

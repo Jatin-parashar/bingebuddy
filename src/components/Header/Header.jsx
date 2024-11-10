@@ -4,10 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import styles from "./Header.module.css";
 import SearchContent from "./SearchContent";
-import Modal from "./common/Modal";
-import userImg from "../assets/user-image.png";
-import { useUserAuth } from "../store/UserAuthContextProvider";
-import { logOut } from "../firebase/firebaseAuth";
+import Modal from "../common/Modal";
+import userImg from "../../assets/user-image.png";
+import { useUserAuth } from "../../store/UserAuthContextProvider";
+import { logOut } from "../../firebase/firebaseAuth";
 
 const contentTypeOptions = {
   movie: [
@@ -84,7 +84,7 @@ const Header = () => {
         ? contentTypeOptions.movie
         : contentTypeOptions.tv;
     return (
-      <ul className={styles.dropdown}>
+      <ul className={styles.dropdownMenu}>
         {optionsList.map((item, index) => (
           <li key={index} onClick={() => handleNavigation(item.path)}>
             {item.label}
@@ -131,8 +131,8 @@ const Header = () => {
         </div>
       </nav>
 
-      <div className={styles.end}>
-        <div className={styles.search}>
+      <div className={styles.headerActions}>
+        <div className={styles.searchIcon}>
           <FontAwesomeIcon
             icon={faSearch}
             onClick={() => {
@@ -143,40 +143,19 @@ const Header = () => {
 
         <div
           ref={profileDropdownRef}
-          style={{ width: "28px", height: "28px", position: "relative" }}
+          className={styles.profileIconWrapper}
           onClick={() => handleDropdownToggle("Profile")}
         >
           {user && user.displayName ? (
-            <div
-              style={{
-                width: "28px",
-                height: "28px",
-                borderRadius: "50%",
-                backgroundColor: "#aaa",
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontWeight: "bold",
-                fontSize: "14px",
-              }}
-            >
+            <div className={styles.userInitial}>
               {user.displayName.charAt(0).toUpperCase()}
             </div>
           ) : (
-            <img
-              src={userImg}
-              alt="User"
-              style={{
-                width: "28px",
-                height: "28px",
-                borderRadius: "50%",
-              }}
-            />
+            <img src={userImg} alt="User" className={styles.userImage} />
           )}
 
           {openDropdown === "Profile" && (
-            <ul className={styles.profileDropdown}>
+            <ul className={styles.profileMenu}>
               {user ? (
                 <>
                   <div>{user.displayName}</div>

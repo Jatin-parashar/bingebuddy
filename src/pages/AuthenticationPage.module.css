@@ -5,74 +5,15 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.rightSection {
+.section {
   flex: 1.5;
-  background: rgb(234, 234, 234);
+  background: rgb(169, 169, 169);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
 }
 
-.authContainer {
-  background: #fff;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 450px;
-}
-
-.logoContainer {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-.logoText {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #ff6f61;
-}
-
-.centeredText {
-  max-width: 700px;
-  text-align: center;
-}
-
-.welcomeText {
-  font-size: 3rem;
-  margin-bottom: 10px;
-  color: white;
-  font-weight: bold;
-}
-
-.tagline {
-  font-size: 1.3rem;
-  margin-bottom: 30px;
-  color: white;
-  font-style: italic;
-}
-
-.keyPoints {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.keyPoint {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: white;
-}
-
-.icon {
-  font-size: 1.5rem;
-  color: #ff6f61;
-}
 
 .bottomImage {
   position: absolute;
@@ -86,38 +27,4 @@
 
 .bottomImage:hover {
   opacity: 1;
-}
-
-button {
-  background-color: #ff6f61;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 24px;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #e55a50;
-}
-
-@media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .leftSection {
-    padding: 20px;
-    flex: 1;
-  }
-
-  .rightSection {
-    flex: 1;
-  }
-
-  .bottomImage {
-    width: 300px;
-  }
 }

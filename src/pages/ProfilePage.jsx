@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./ProfilePage.module.css";
 import banner from "../assets/banner.jpg";
 import { useUserAuth } from "../store/UserAuthContextProvider";
-import { fetchData } from "../db/firebasedb";
+import { fetchData } from "../firebase/firebaseDB";
 
 const ProfilePage = () => {
   const { user } = useUserAuth();

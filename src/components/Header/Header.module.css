@@ -2,11 +2,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #b22222; /* Firebrick red background */
+    background-color: #b22222;
     color: #fff;
     padding: 12px 30px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    
 }
 
 .logo h1 {
@@ -24,20 +23,14 @@
     position: relative;
     cursor: pointer;
     padding: 5px;
-
 }
 
 .navItem span {
     font-size: 18px;
     color: white;
-
 }
 
-/* .navItem:hover span {
-    background-color: #fff;
-} */
-
-.dropdown {
+.dropdownMenu {
     position: absolute;
     top: 100%;
     left: 0;
@@ -52,73 +45,58 @@
     z-index: 2;
 }
 
-.dropdown li {
+.dropdownMenu li {
     padding: 5px;
     margin: 5px;
     color: white;
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
-    
 }
 
-.dropdown li:hover {
-    background-color: black;
+.dropdownMenu li:hover {
     background-color: #343434;
 }
 
-.search{
+.searchIcon {
     cursor: pointer;
 }
 
-
-/* .searchBtn:hover {
-    background-color: #ff8566;
-} */
-
-
-
-
-.end{
+.headerActions {
     display: flex;
     gap: 20px;
+    align-items: center;
+}
+
+.profileIconWrapper {
+    width: 28px;
+    height: 28px;
+    position: relative;
+}
+
+.userInitial {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #aaa;
+    color: #fff;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
-
+    font-weight: bold;
+    font-size: 14px;
 }
 
-
-.end {
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    position: relative; /* Allow absolute positioning of profileDropdown */
+.userImage {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
 }
 
-.end div{
-    cursor: pointer;
-}
-
-/* Dropdown style common for Movies and TV Shows */
-.dropdown {
+.profileMenu {
     position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: rgb(0, 0, 0);
-    border: 1px solid rgb(20, 20, 20);
-    list-style: none;
-    padding: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-    display: block;
-    width: 150px;
-    border-radius: 20px;
-    z-index: 2;
-}
-
-.profileDropdown {
-    position: absolute;
-    top: 40px; /* Positioned below the profile image */
-    right: 0; /* Align to the right for better placement */
+    top: 40px;
+    right: 0;
     background-color: black;
     border: 1px solid rgb(20, 20, 20);
     list-style: none;
@@ -130,15 +108,16 @@
     z-index: 2;
 }
 
-.profileDropdown div{
-
+.profileMenu div {
     padding: 5px 10px;
     margin: 5px;
     font-size: 16px;
     border-bottom: 1px solid rgb(60, 60, 60);
     text-align: center;
 }
-.dropdown li, .profileDropdown li {
+
+.dropdownMenu li,
+.profileMenu li {
     padding: 5px 10px;
     margin: 5px;
     color: white;
@@ -146,16 +125,7 @@
     border-radius: 5px;
 }
 
-
-.dropdown li:hover, .profileDropdown li:hover {
+.dropdownMenu li:hover,
+.profileMenu li:hover {
     background-color: #343434;
 }
-
-.loadingPlaceholder {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background-color: #ccc; /* Placeholder color */
-    position: absolute;
-  }
-  

@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useRef, useEffect } from "react";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { getSearchedContent } from "../services/apiService";
+import { getSearchedContent } from "../../services/apiService";
 import { useNavigate } from "react-router-dom";
-import fallbackImage from "../assets/no-image.jpg";
+import fallbackImage from "../../assets/no-image.jpg";
 import styles from "./SearchContent.module.css";
 
 function throttle(fn, limit) {
@@ -16,7 +16,7 @@ function throttle(fn, limit) {
   };
 }
 
-const SearchContent = ({onClose}) => {
+const SearchContent = ({ onClose }) => {
   const [keyword, setKeyword] = useState("");
   const [searchedData, setSearchedData] = useState(null);
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ const SearchContent = ({onClose}) => {
   const throttledFetch = useRef(
     throttle(async (keyword) => {
       if (keyword) {
-        // console.log("Fetching data for keyword:", keyword);
         const response = await getSearchedContent(keyword);
         const data = response.data;
         setSearchedData(data);

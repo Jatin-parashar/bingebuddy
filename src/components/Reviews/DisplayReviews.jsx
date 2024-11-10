@@ -1,9 +1,8 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./DisplayReviews.module.css";
 import usr from "../../assets/user-image.jpg";
-import { fetchData, listenForValueEvents } from "../../db/firebasedb";
+import { listenForValueEvents } from "../../firebase/firebaseDB";
 
 const DisplayReviews = ({}) => {
   const [reviews, setReviews] = useState([]);
@@ -11,20 +10,23 @@ const DisplayReviews = ({}) => {
   const [expanded, setExpanded] = useState({});
   const params = useParams();
 
-  useEffect(() => {
-
-    const unsubscribe = listenForValueEvents(
-      params.contentType+"reviews/" + params.contentId,
-      (reviewsData) => {
-        if (!reviewsData) {
-          setReviews([]);
-          return;
-        }
-        const filteredReviews = Object.keys(reviewsData).map(
-          (key) => reviewsData[key]
-        );
-        setReviews(filteredReviews);
+  function reviewAddEventListenerCallback() {
+    return (reviewsData) => {
+      if (!reviewsData) {
+        setReviews([]);
+        return;
       }
+      const filteredReviews = Object.keys(reviewsData).map(
+        (key) => reviewsData[key]
+      );
+      setReviews(filteredReviews);
+    };
+  }
+
+  useEffect(() => {
+    const unsubscribe = listenForValueEvents(
+      "reviews/" + params.contentType + "/" + params.contentId,
+      reviewAddEventListenerCallback()
     );
     return () => {
       unsubscribe();
